@@ -32,11 +32,13 @@ document.addEventListener('DOMContentLoaded', ev => {
 
     const newTodo = () => {
         if(addInput.value.trim()){
-            const id = new Date().getTime();
-            const content = addInput.value;
-            const completed = false;
-            const store = true;
-            addTodo({id, content, completed, store});
+            const addNewTodo = {
+                id: new Date().getTime(),
+                content: addInput.value,
+                completed: false,
+                store: true
+            };
+            addTodo(addNewTodo);
         }
         addInput.value = '';
     }
@@ -45,11 +47,16 @@ document.addEventListener('DOMContentLoaded', ev => {
         if(localStorage.getItem('MyTodos')){
             todoTasks = JSON.parse(localStorage.getItem('MyTodos'));
             todoTasks.forEach( todo => {
-                addTodo({id: todo.id, content: todo.content, completed: todo.completed});
+                addTodo({...todo});
             });
         }
         else{
-            addTodo({id: 0, content: 'Nothing here eh?, add your todos.', completed: false, store: true});
+            const withoutTodo = {
+                id: 0,
+                content: 'Nothing here eh?, add your todos.',
+                completed: false
+            }
+            addTodo({...withoutTodo, store: true});
         }
     };
 
@@ -103,6 +110,5 @@ document.addEventListener('DOMContentLoaded', ev => {
         filterTodos(filter);
     });
 
-    
     loadTodos();
 });
