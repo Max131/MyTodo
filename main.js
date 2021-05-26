@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', ev => {
         completed && todo.classList.add('todo--done');
         delButton.innerHTML = '&times;';
         delButton.classList.add('todo__delete');
-        todo.appendChild(delButton);
-        todoList.appendChild(todo);
+        todo.insertAdjacentElement("beforeend",delButton);
+        todoList.insertAdjacentElement("afterbegin", todo);
         
     };
 
