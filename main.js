@@ -14,15 +14,16 @@ document.addEventListener('DOMContentLoaded', ev => {
     }
 
     const addTodo = ({id, content, completed, store = false}) => {
-        store && todoTasks.push({id: id, content: content, completed: completed});
+        store && todoTasks.push({id, content, completed});
         storeTodos();
         const todo = document.createElement('li');
         const delButton = document.createElement('span');
         todo.dataset.id = id;
         todo.textContent = content;
         todo.classList.add('todo');
-        !completed && todo.classList.add('todo--active')
-        completed && todo.classList.add('todo--done');
+        !completed
+						? todo.classList.add('todo--active')
+						: todo.classList.add('todo--done');
         delButton.innerHTML = '&times;';
         delButton.classList.add('todo__delete');
         todo.insertAdjacentElement("beforeend",delButton);
@@ -61,8 +62,7 @@ document.addEventListener('DOMContentLoaded', ev => {
     };
 
     const getTodoIndex = (id) =>{
-        const todoIndex = todoTasks.map(el => el.id).indexOf(+id);
-        return todoIndex;
+        return todoTasks.map(el => el.id).indexOf(+id);
     };
 
     const toggleTodo = (todo) => {
@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', ev => {
 
     const deleteTodo = (todo) => {
         const index = getTodoIndex(todo.parentNode.dataset.id);
-        console.log(index);
         todoTasks.splice(index, 1);
         storeTodos();
         todo.parentNode.remove();
